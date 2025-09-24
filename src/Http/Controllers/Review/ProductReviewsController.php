@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Review;
+namespace Mortezaa97\Shop\Http\Controllers\Review;
 
 use App\Http\Controllers\Controller;
 use Mortezaa97\Shop\Models\Product;

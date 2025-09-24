@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Product\CompareProductsController;
-use App\Http\Controllers\Product\IncreaseViewProductsController;
-use App\Http\Controllers\Product\MostSoldProductsController;
-use App\Http\Controllers\Product\RelatedProductsController;
-use App\Http\Controllers\Review\ProductReviewsController;
 use Illuminate\Support\Facades\Route;
 use Mortezaa97\Reviews\Http\Controllers\ReviewController;
+use Mortezaa97\Shop\Http\Controllers\Product\CompareProductsController;
+use Mortezaa97\Shop\Http\Controllers\Product\IncreaseViewProductsController;
+use Mortezaa97\Shop\Http\Controllers\Product\MostSoldProductsController;
+use Mortezaa97\Shop\Http\Controllers\Product\RelatedProductsController;
 use Mortezaa97\Shop\Http\Controllers\ProductController;
+use Mortezaa97\Shop\Http\Controllers\Review\ProductReviewsController;
 
 
 Route::prefix('api/products')->group(function () {

@@ -51,7 +51,6 @@ class Product extends Model
         'offer_price',
         'is_liked',
         'default_variant',
-        'satisfaction_percent',
         'breadcrumbs',
     ];
 
@@ -198,7 +197,7 @@ class Product extends Model
             return false;
         }
 
-        return (bool) Wishlist::where(['user_id' => $user->id, 'product_id' => $this->id])->count();
+        return (bool) Wishlist::where(['user_id' => $user->id, 'model_id' => $this->id,'model_type'=>self::class])->count();
     }
 
     public function getMinPriceAttribute()
