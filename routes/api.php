@@ -12,14 +12,12 @@ use Mortezaa97\Shop\Http\Controllers\ProductController;
 use Mortezaa97\Shop\Http\Controllers\Review\ProductReviewsController;
 
 
-Route::prefix('api/products')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/{product:code}', [ProductController::class, 'show'])->name('products.show');
+Route::prefix('api')->group(function () {
+    Route::get('products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('products/{product:code}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('products-related/{product:slug}', RelatedProductsController::class)->name('products.related');
+    Route::get('products-reviews/{product:slug}', ProductReviewsController::class)->name('products.reviews');
+    Route::get('products-increase-view/{product:slug}', IncreaseViewProductsController::class)->name('products.increase.view');
+    Route::post('products-compare', CompareProductsController::class)->name('products.compare');
+    Route::get('most-sold-products', MostSoldProductsController::class)->name('products.most.sold');
 });
-
-Route::get('products-related/{product:slug}', RelatedProductsController::class)->name('products.related');
-Route::get('products-reviews/{product:slug}', ProductReviewsController::class)->name('products.reviews');
-Route::get('products-increase-view/{product:slug}', IncreaseViewProductsController::class)->name('products.increase.view');
-Route::post('products-compare', CompareProductsController::class)->name('products.compare');
-Route::get('most-sold-products', MostSoldProductsController::class)->name('products.most.sold');
-
