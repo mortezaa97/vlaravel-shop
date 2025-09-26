@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Mortezaa97\Reviews\Http\Controllers\ReviewController;
 use Mortezaa97\Shop\Http\Controllers\Product\CompareProductsController;
+use Mortezaa97\Shop\Http\Controllers\Product\FilterProductsController;
 use Mortezaa97\Shop\Http\Controllers\Product\IncreaseViewProductsController;
 use Mortezaa97\Shop\Http\Controllers\Product\MostSoldProductsController;
 use Mortezaa97\Shop\Http\Controllers\Product\RelatedProductsController;
@@ -20,4 +20,5 @@ Route::prefix('api')->group(function () {
     Route::get('products-increase-view/{product:slug}', IncreaseViewProductsController::class)->name('products.increase.view');
     Route::post('products-compare', CompareProductsController::class)->name('products.compare');
     Route::get('most-sold-products', MostSoldProductsController::class)->name('products.most.sold');
+    Route::get('products-filter', FilterProductsController::class)->name('products.filter');
 });
