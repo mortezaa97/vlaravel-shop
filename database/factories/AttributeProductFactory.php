@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Mortezaa97\Shop\Database\Factories;
 
 use App\Models\User;
-use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
-use Mortezaa97\Shop\Models\Attribute;
 use Mortezaa97\Shop\Models\AttributeCategory;
 use Mortezaa97\Shop\Models\AttributeProduct;
 use Mortezaa97\Shop\Models\AttributeValue;
@@ -21,6 +19,8 @@ class AttributeProductFactory extends Factory
 {
     protected $model = AttributeProduct::class;
 
+    protected static array $availablePairs = [];
+
     /**
      * Define the model's default state.
      *
@@ -28,50 +28,74 @@ class AttributeProductFactory extends Factory
      */
     public function definition(): array
     {
-        $productIds = Product::pluck('id')->toArray();
         $userIds = User::pluck('id')->toArray();
 
-        // Ensure unique product_id and attribute_id combination with retry limit
-        $maxRetries = 100;
-        $attempts = 0;
-        $attribute_id = null;
-        $product_id = null;
+        if (empty(static::$availablePairs)) {
+            // Collect all eligible non-existing pairs
+            $eligiblePairs = [];
 
-        do {
-            if ($attempts++ >= $maxRetries) {
-                throw new Exception('No unique product_id and attribute_id combinations available.');
-            }
-
-            $product_id = ! empty($productIds) ? $this->faker->randomElement($productIds) : null;
-
-            // Get categories for the selected product
-            $categoryIds = DB::table('model_has_categories')
+            // Get all product-category mappings
+            $productCategories = DB::table('model_has_categories')
                 ->where('model_type', 'App\\Models\\Product')
-                ->where('model_id', $product_id)
-                ->pluck('category_id')
-                ->toArray();
+                ->select('model_id as product_id', 'category_id')
+                ->get()
+                ->groupBy('product_id');
 
-            if (empty($categoryIds)) {
-                continue; // Skip if no categories
+            if ($productCategories->isEmpty()) {
+                throw new \Exception('No products with categories available.');
             }
 
-            // Get eligible attribute IDs for variant from AttributeCategories
-            $eligibleAttributeIds = AttributeCategory::whereIn('category_id', $categoryIds)
-                ->where('can_variant', true)
-                ->pluck('attribute_id')
-                ->unique()
+            // Get existing pairs to exclude, grouped by product_id
+            $existingPairs = AttributeProduct::select('product_id', 'attribute_id')
+                ->get()
+                ->groupBy('product_id')
+                ->map(function ($group) {
+                    return $group->pluck('attribute_id')->toArray();
+                })
                 ->toArray();
 
-            if (empty($eligibleAttributeIds)) {
-                continue; // Skip if no eligible attributes
+            foreach ($productCategories as $productId => $categories) {
+                $categoryIds = $categories->pluck('category_id')->toArray();
+
+                // Get eligible attributes for these categories
+                $eligibleAttributeIds = AttributeCategory::whereIn('category_id', $categoryIds)
+                    ->where('can_variant', true)
+                    ->distinct()
+                    ->reorder()
+                    ->pluck('attribute_id')
+                    ->toArray();
+
+                $existingAttributesForProduct = $existingPairs[$productId] ?? [];
+
+                foreach ($eligibleAttributeIds as $attributeId) {
+                    if (!in_array($attributeId, $existingAttributesForProduct)) {
+                        $eligiblePairs[] = [
+                            'product_id' => $productId,
+                            'attribute_id' => $attributeId,
+                        ];
+                    }
+                }
             }
 
-            $attribute_id = $this->faker->randomElement($eligibleAttributeIds);
+            if (empty($eligiblePairs)) {
+                throw new \Exception('No unique product_id and attribute_id combinations available.');
+            }
 
-            $exists = AttributeProduct::where('product_id', $product_id)
-                ->where('attribute_id', $attribute_id)
-                ->exists();
-        } while ($exists);
+            static::$availablePairs = $eligiblePairs;
+            shuffle(static::$availablePairs);
+        }
+
+        if (empty(static::$availablePairs)) {
+            throw new \Exception('No unique product_id and attribute_id combinations available.');
+        }
+
+        // Pick and remove a random eligible pair
+        $index = array_rand(static::$availablePairs);
+        $randomPair = static::$availablePairs[$index];
+        unset(static::$availablePairs[$index]);
+
+        $product_id = $randomPair['product_id'];
+        $attribute_id = $randomPair['attribute_id'];
 
         $attributeValueIds = AttributeValue::where('attribute_id', $attribute_id)->pluck('id')->toArray();
 

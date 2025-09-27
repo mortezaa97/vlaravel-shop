@@ -30,9 +30,6 @@ class ProductResource extends JsonResource
             'code' => $this->code,
             'slug' => $this->slug,
             //            'brand' => new BrandResource($this->whenLoaded('brand')),
-            'category_id' => $this->category_id,
-            'categories' => CategoryResource::collection($this->categories),
-            'reviews' => ReviewResource::collection($this->reviews)->paginate(20),
             'hover' => $this->hover ? url($this->hover) : null,
             'gallery' => collect($this->gallery)->map(fn ($image) => url($image))->all(),
             'desc' => $this->desc,
@@ -72,6 +69,8 @@ class ProductResource extends JsonResource
             'is_liked' => $this->is_liked,
             'is_active' => $this->is_active,
             'options' => $this->options,
+            'categories' => CategoryResource::collection($this->categories),
+            'reviews' => ReviewResource::collection($this->reviews)->paginate(20),
         ];
     }
 }
