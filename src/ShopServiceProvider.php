@@ -18,6 +18,7 @@ use Mortezaa97\Shop\Policies\AttributeProductPolicy;
 use Mortezaa97\Shop\Policies\AttributeValuePolicy;
 use Mortezaa97\Shop\Policies\ProductPolicy;
 use Mortezaa97\Shop\Policies\SpecificationPolicy;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ShopServiceProvider extends ServiceProvider
 {
@@ -31,9 +32,9 @@ class ShopServiceProvider extends ServiceProvider
 
         // Load routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        $this->publishes([
-            __DIR__.'/../database/factories' => database_path('factories'),
-        ], 'factories');
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            return 'Mortezaa97\\Shop\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
+        });
         // Register policies
         Gate::policy(Product::class, ProductPolicy::class);
         Gate::policy(Attribute::class, AttributePolicy::class);
