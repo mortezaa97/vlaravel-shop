@@ -16,7 +16,7 @@ class SpecificationResource extends JsonResource
     {
         return [
             'attribute_name' => $this->attribute?->name,
-            'attribute_media' => url($this->attribute?->image),
+            'attribute_media' => $this->attribute?->image ? url($this->attribute?->image) : null,
             'value_title' => $this->value?->title,
         ];
     }

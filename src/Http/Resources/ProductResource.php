@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mortezaa97\Shop\Http\Resources;
 
 use App\Http\Resources\CategoryResource;
-use Mortezaa97\Shop\Http\Resources\SpecificationResource;
 use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,10 +19,10 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-//        $specifications = Specification::where('product_id', $this->id)
-//            ->get()
-//            ->sortByDesc('is_favorite')
-//            ->take(4);
+        //        $specifications = Specification::where('product_id', $this->id)
+        //            ->get()
+        //            ->sortByDesc('is_favorite')
+        //            ->take(4);
 
         return [
             'id' => $this->id,
@@ -34,7 +33,7 @@ class ProductResource extends JsonResource
             'category_id' => $this->category_id,
             'categories' => CategoryResource::collection($this->categories),
             'reviews' => ReviewResource::collection($this->reviews)->paginate(20),
-            'hover' => url($this->hover),
+            'hover' => $this->hover ? url($this->hover) : null,
             'gallery' => collect($this->gallery)->map(fn ($image) => url($image))->all(),
             'desc' => $this->desc,
             'excerpt' => $this->excerpt,
@@ -44,13 +43,14 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'rate' => $this->rate,
             //            'variants_availability' => $this->variants_availability,
-            'specifications' => SpecificationResource::collection($this->specifications),
-            'children' => self::collection($this->children),
+            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
+            'variants' => ProductSimpleResource::collection($this->children),
             'display_name' => $this->display_name,
             'quantity' => $this->when(isset($this->quantity), str($this->quantity)), // موجودی
             'partner_price' => $this->partner_price,
             'user_price' => $this->user_price,
             'sale_price' => $this->sale_price,
+            'default_variant' => $this->default_variant,
             'on_sale' => $this->on_sale,
             'offer_price' => $this->offer_price,
             'date_from' => $this->when(isset($this->date_from), $this->date_from),
@@ -71,7 +71,6 @@ class ProductResource extends JsonResource
             'tags' => TagResource::collection($this->tags),
             'is_liked' => $this->is_liked,
             'is_active' => $this->is_active,
-            'prices' => $this->prices,
             'options' => $this->options,
         ];
     }

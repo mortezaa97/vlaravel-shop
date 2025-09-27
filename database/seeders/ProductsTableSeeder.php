@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\AttributeProduct;
-use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Mortezaa97\Shop\Models\Product;
 
 class ProductsTableSeeder extends Seeder
 {

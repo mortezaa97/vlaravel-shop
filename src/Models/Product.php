@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace Mortezaa97\Shop\Models;
 
 use App\Enums\Status;
-use Mortezaa97\Shop\Models\Attribute;
-use Mortezaa97\Shop\Models\AttributeProduct;
-use Mortezaa97\Shop\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Faq;
-use Mortezaa97\Shop\Models\Specification;
 use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;
@@ -42,7 +38,6 @@ class Product extends Model
 
     protected $appends = [
         'options',
-        'prices',
         'is_active',
         'on_sale',
         'rate',
@@ -92,10 +87,6 @@ class Product extends Model
     /*
      * Accessors
      */
-    public function getPricesAttribute(): array
-    {
-        return $this->children()->orderBy('price')->pluck('price')->toArray();
-    }
 
     public function getIsActiveAttribute()
     {
@@ -145,23 +136,23 @@ class Product extends Model
             ->get()
             ->sortBy('attribute.parent.order')
             ->groupBy('attribute.parent.name')
-            ->map(function ($group) {
-                return $group->map(function ($spec) {
+            ->mapWithKeys(function ($group, $key) {
+                $newKey = empty($key) ? 'مشخصات کلی' : $key;
+
+                return [$newKey => $group->map(function ($spec) {
                     return [
                         'desc' => $spec->desc,
                         'attribute' => [
-                            'id' => $spec->attribute->id,
                             'name' => $spec->attribute->name,
                             'slug' => $spec->attribute->slug,
                         ],
                         'value' => $spec->value ? [
-                            'id' => $spec->value->id,
                             'title' => $spec->value->title,
                             'hex' => $spec->value->hex,
                             'desc' => $spec->value->desc,
                         ] : null,
                     ];
-                });
+                })];
             });
 
         return $specifications;
@@ -197,7 +188,7 @@ class Product extends Model
             return false;
         }
 
-        return (bool) Wishlist::where(['user_id' => $user->id, 'model_id' => $this->id,'model_type'=>self::class])->count();
+        return (bool) Wishlist::where(['user_id' => $user->id, 'model_id' => $this->id, 'model_type'=>self::class])->count();
     }
 
     public function getMinPriceAttribute()

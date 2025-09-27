@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\Status;
-use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Mortezaa97\Shop\Models\Product;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Mortezaa97\Shop\Models\Product>
  */
 class ProductFactory extends Factory
 {
@@ -44,7 +46,7 @@ class ProductFactory extends Factory
             'image' => $this->faker->optional()->passthrough('files/image' . $this->faker->numberBetween(1, 100) . '.png'), // Nullable, e.g., files/image42.png
             'hover' => $this->faker->optional()->passthrough('files/hover' . $this->faker->numberBetween(1, 100) . '.png'), // Nullable, e.g., files/hover17.png
             'gallery' => $this->faker->randomElements(
-                array_map(fn($i) => 'files/gallery' . $i . '.png', range(1, 3)),
+                array_map(fn ($i) => 'files/gallery' . $i . '.png', range(1, 3)),
                 $this->faker->numberBetween(1, 3)
             ),
             'excerpt' => $this->faker->optional()->sentence(), // Nullable
