@@ -12,7 +12,7 @@ use Mortezaa97\Shop\Http\Controllers\ProductController;
 use Mortezaa97\Shop\Http\Controllers\Review\ProductReviewsController;
 
 
-Route::prefix('api')->group(function () {
+Route::prefix('api')->middleware('api')->group(function () {
     Route::get('products', [ProductController::class, 'index'])->name('products.index');
     Route::get('products/{product:code}', [ProductController::class, 'show'])->name('products.show');
     Route::get('products-related/{product:slug}', RelatedProductsController::class)->name('products.related');
