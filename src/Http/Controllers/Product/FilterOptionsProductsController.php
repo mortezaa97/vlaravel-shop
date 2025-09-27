@@ -52,7 +52,7 @@ class FilterOptionsProductsController extends Controller
             'most_liked' => 'محبوب‌ترین',
         ];
         if (! $request->url) {
-            $page = Page::where('slug', 'category-details-page')->firstOrFail();
+            $page = Page::where('slug', 'products-filter')->firstOrFail();
 
             $categories = Category::query()
                 ->whereNull('parent_id')
