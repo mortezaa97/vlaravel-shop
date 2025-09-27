@@ -47,8 +47,8 @@ class FilterProductsController extends Controller
                 };
 
                 $query = Product::query()
-                    ->with(['variants' => $variantConditions])
-                    ->whereHas('variants', function ($q) {
+                    ->with(['children' => $variantConditions])
+                    ->whereHas('children', function ($q) {
                         $q->where('quantity', '>', 0)
                             ->where('price', '>', 0);
                     })
