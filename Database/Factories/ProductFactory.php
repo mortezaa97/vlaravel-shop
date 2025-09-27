@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mortezaa97\Shop\Database\Factories;
+namespace Database\Factories;
 
 use App\Enums\Status;
 use App\Models\User;
