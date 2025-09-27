@@ -13,7 +13,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -350,14 +352,10 @@ class Product extends Model
     //        return $this->hasMany(ProductQuestion::class, 'product_id');
     //    }
 
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+
+    public function categories(): MorphToMany
     {
-        return $this->belongsToMany(
-            related: Category::class,
-            table: 'model_has_categories',
-            foreignPivotKey: 'model_id',
-            relatedPivotKey: 'category_id'
-        )->withPivotValue('model_type', self::class);
+        return $this->morphToMany(related: Category::class, name: 'model', table: 'model_has_categories', foreignPivotKey: 'model_id', relatedPivotKey: 'category_id');
     }
 
     /*

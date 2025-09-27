@@ -19,11 +19,6 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        //        $specifications = Specification::where('product_id', $this->id)
-        //            ->get()
-        //            ->sortByDesc('is_favorite')
-        //            ->take(4);
-
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -40,8 +35,6 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'rate' => $this->rate,
             //            'variants_availability' => $this->variants_availability,
-            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
-            'variants' => ProductSimpleResource::collection($this->children),
             'display_name' => $this->display_name,
             'quantity' => $this->when(isset($this->quantity), str($this->quantity)), // موجودی
             'partner_price' => $this->partner_price,
@@ -60,17 +53,19 @@ class ProductResource extends JsonResource
             'image' => $this->image ? url($this->image) : null,
             'status' => $this->status,
             'updated_at' => $this->updated_at,
-            'grouped_specifications' => $this->grouped_specifications,
             'breadcrumbs' => $this->breadcrumbs,
             'meta_title' => $this->meta_title,
             'meta_desc' => $this->meta_desc,
             'meta_keywords' => $this->meta_keywords,
-            'tags' => TagResource::collection($this->tags),
             'is_liked' => $this->is_liked,
             'is_active' => $this->is_active,
             'options' => $this->options,
+            'grouped_specifications' => $this->grouped_specifications,
+//            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
+            'variants' => ProductSimpleResource::collection($this->children),
             'categories' => CategoryResource::collection($this->categories),
             'reviews' => ReviewResource::collection($this->reviews)->paginate(20),
+            'tags' => TagResource::collection($this->tags),
         ];
     }
 }

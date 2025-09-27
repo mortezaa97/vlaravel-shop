@@ -36,7 +36,7 @@ class AttributeProductFactory extends Factory
 
             // Get all product-category mappings
             $productCategories = DB::table('model_has_categories')
-                ->where('model_type', 'App\\Models\\Product')
+                ->where('model_type', Product::class)
                 ->select('model_id as product_id', 'category_id')
                 ->get()
                 ->groupBy('product_id');
