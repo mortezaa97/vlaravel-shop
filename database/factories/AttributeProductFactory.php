@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\User;
-use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Mortezaa97\Shop\Models\Attribute;
 use Mortezaa97\Shop\Models\AttributeProduct;
@@ -13,7 +12,7 @@ use Mortezaa97\Shop\Models\AttributeValue;
 use Mortezaa97\Shop\Models\Product;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Mortezaa97\Shop\Models\AttributeProduct>
+ * @extends Factory<AttributeProduct>
  */
 class AttributeProductFactory extends Factory
 {
@@ -35,7 +34,7 @@ class AttributeProductFactory extends Factory
         $attempts = 0;
         do {
             if ($attempts++ >= $maxRetries) {
-                throw new Exception('No unique product_id and attribute_id combinations available.');
+                throw new \Exception('No unique product_id and attribute_id combinations available.');
             }
             $attribute_id = $this->faker->randomElement($attributeIds);
             $product_id = ! empty($productIds) ? $this->faker->randomElement($productIds) : null;
