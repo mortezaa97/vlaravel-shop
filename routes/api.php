@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Mortezaa97\Shop\Http\Controllers\Product\CompareProductsController;
+use Mortezaa97\Shop\Http\Controllers\Product\FilterOptionsProductsController;
 use Mortezaa97\Shop\Http\Controllers\Product\FilterProductsController;
 use Mortezaa97\Shop\Http\Controllers\Product\IncreaseViewProductsController;
 use Mortezaa97\Shop\Http\Controllers\Product\MostSoldProductsController;
@@ -21,4 +22,5 @@ Route::prefix('api')->middleware('api')->group(function () {
     Route::post('products-compare', CompareProductsController::class)->name('products.compare');
     Route::get('most-sold-products', MostSoldProductsController::class)->name('products.most.sold');
     Route::get('products-filter', FilterProductsController::class)->name('products.filter');
+    Route::get('products-filter-options', FilterOptionsProductsController::class)->name('products.filter');
 });
