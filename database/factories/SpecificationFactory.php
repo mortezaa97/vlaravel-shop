@@ -16,6 +16,8 @@ use Mortezaa97\Shop\Models\Specification;
  */
 class SpecificationFactory extends Factory
 {
+    protected $model = Specification::class;
+
     /**
      * Define the model's default state.
      *
