@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Attribute;
-use App\Models\AttributeProduct;
-use App\Models\AttributeValue;
-use App\Models\Product;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Mortezaa97\Shop\Models\Attribute;
+use Mortezaa97\Shop\Models\AttributeProduct;
+use Mortezaa97\Shop\Models\AttributeValue;
+use Mortezaa97\Shop\Models\Product;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AttributeProduct>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Mortezaa97\Shop\Models\AttributeProduct>
  */
 class AttributeProductFactory extends Factory
 {

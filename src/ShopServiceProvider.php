@@ -32,6 +32,12 @@ class ShopServiceProvider extends ServiceProvider
         // Load routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
+        $factories = glob(__DIR__ . '/../database/factories/*.php');
+        foreach ($factories as $factory) {
+            $factoryClass = 'Mortezaa97\\Shop\\Database\\Factories\\' . basename($factory, '.php');
+            $this->app->make($factoryClass);
+        }
+
         // Register policies
         Gate::policy(Product::class, ProductPolicy::class);
         Gate::policy(Attribute::class, AttributePolicy::class);
