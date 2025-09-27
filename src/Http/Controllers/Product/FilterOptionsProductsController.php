@@ -51,7 +51,7 @@ class FilterOptionsProductsController extends Controller
             'most_viewed' => 'پربازدیدترین',
             'most_liked' => 'محبوب‌ترین',
         ];
-        if (! $request->validated('url')) {
+        if (! $request->url) {
             $page = Page::where('slug', 'category-details-page')->firstOrFail();
 
             $categories = Category::query()
@@ -70,7 +70,7 @@ class FilterOptionsProductsController extends Controller
                 'sort_types' => $sort_types,
             ]);
         } else {
-            $category = Category::where('url', $request->validated('url'))->firstOrFail();
+            $category = Category::where('url', $request->url)->firstOrFail();
 
             return response()->json([
                 'meta_title' => $category->meta_title,
