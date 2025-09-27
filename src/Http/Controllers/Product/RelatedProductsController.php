@@ -28,6 +28,6 @@ class RelatedProductsController extends Controller
 
         return ProductResource::collection(Product::whereHas('categories', function ($query) use ($allCategories) {
             $query->whereIn('category_id', $allCategories->pluck('id'));
-        })->where('id', '!=', $product->id)->currentStatus(Status::PUBLISHED)->take(15)->get());
+        })->where('id', '!=', $product->id)->where('status',Status::PUBLISHED)->take(15)->get());
     }
 }
