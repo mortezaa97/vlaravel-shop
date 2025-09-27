@@ -26,7 +26,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Mortezaa97\\Shop\\": "src"
+            "Mortezaa97\\Shop\\": "src",
+            "Mortezaa97\\Shop\\Database\\Factories\\": "database/factories/",
+            "Mortezaa97\\Shop\\Database\\Seeders\\": "database/seeders/",
+            "Mortezaa97\\Shop\\Database\\Migrations\\": "database/migrations/"
+
         }
     },
     "autoload-dev": {
