@@ -42,9 +42,7 @@ class Product extends Model
         'is_active',
         'on_sale',
         'rate',
-        'price',
         'min_price',
-        'offer_price',
         'is_liked',
         'default_variant',
         'breadcrumbs',
@@ -236,31 +234,6 @@ class Product extends Model
         }
 
         return [];
-    }
-
-    public function getPriceAttribute()
-    {
-        $item = $this->children()->whereNotNull('sale_price')
-            ->where('date_from', '<=', Carbon::today()->toDateString())
-            ->where('date_to', '>=', Carbon::today()->toDateString())->limit(1)->value('price');
-        if ($item) {
-            return $item;
-        }
-
-        return $this->children()->available()->min('price');
-    }
-
-    public function getOfferPriceAttribute()
-    {
-        $item = $this->children()->available()
-            ->whereNotNull('sale_price')
-            ->where('date_from', '<=', Carbon::today()->toDateString())
-            ->where('date_to', '>=', Carbon::today()->toDateString())->value('sale_price');
-        if ($item) {
-            return $item;
-        }
-
-        return null;
     }
 
     public function getValuesAttribute()

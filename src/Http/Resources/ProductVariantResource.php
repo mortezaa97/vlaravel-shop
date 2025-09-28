@@ -37,6 +37,7 @@ class ProductVariantResource extends JsonResource
             'date_from' => $this->when(isset($this->date_from), $this->date_from),
             'date_to' => $this->when(isset($this->date_to), $this->date_to),
             'sku' => $this->when(isset($this->sku), $this->sku),
+            'attribute' => $this->options
 //            'status' => $this->status,
         ];
     }
