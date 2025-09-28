@@ -22,5 +22,5 @@ Route::prefix('api')->middleware('api')->group(function () {
     Route::post('products-compare', CompareProductsController::class)->name('products.compare');
     Route::get('most-sold-products', MostSoldProductsController::class)->name('products.most.sold');
     Route::get('products-filter', FilterProductsController::class)->name('products.filter');
-    Route::get('products-filter-options', FilterOptionsProductsController::class)->name('products.filter');
+    Route::get('products-filter-options', FilterOptionsProductsController::class)->name('products.filter.options');
 });
