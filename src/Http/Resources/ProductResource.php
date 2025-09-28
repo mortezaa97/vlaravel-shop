@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mortezaa97\Shop\Http\Resources;
 
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategorySimpleResource;
 use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -24,7 +24,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'code' => $this->code,
             'slug' => $this->slug,
-            //            'brand' => new BrandResource($this->whenLoaded('brand')),
+//            'brand' => new BrandResource($this->whenLoaded('brand')),
             'hover' => $this->hover ? url($this->hover) : null,
             'gallery' => collect($this->gallery)->map(fn ($image) => url($image))->all(),
             'desc' => $this->desc,
@@ -45,10 +45,9 @@ class ProductResource extends JsonResource
             'date_from' => $this->when(isset($this->date_from), $this->date_from),
             'date_to' => $this->when(isset($this->date_to), $this->date_to),
             'sku' => $this->when(isset($this->sku), $this->sku),
-            'product_code' => $this->when(isset($this->product_code), $this->product_code),
-            'warranty' => $this->warranty,
-            'color' => $this->color,
-            'attributes' => $this->attribute_values,
+//            'warranty' => $this->warranty,
+//            'color' => $this->color,
+//            'attributes' => $this->attribute_values,
             'image' => $this->image ? url($this->image) : null,
             'status' => $this->status,
             'updated_at' => $this->updated_at,
@@ -57,13 +56,13 @@ class ProductResource extends JsonResource
             'meta_keywords' => $this->meta_keywords,
             'is_liked' => $this->is_liked,
             'is_active' => $this->is_active,
-            'options' => $this->options,
+//            'options' => $this->options,
             'breadcrumbs' => $this->breadcrumbs,
             'default_variant' => new ProductVariantResource($this->default_variant),
             'grouped_specifications' => $this->grouped_specifications,
 //            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
             'variants' => ProductVariantResource::collection($this->children),
-            'categories' => CategoryResource::collection($this->categories),
+            'categories' => CategorySimpleResource::collection($this->categories),
             'reviews' => ReviewResource::collection($this->reviews)->paginate(20),
             'tags' => TagResource::collection($this->tags),
         ];

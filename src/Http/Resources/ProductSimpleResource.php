@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mortezaa97\Shop\Http\Resources;
 
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategorySimpleResource;
 use Mortezaa97\Shop\Http\Resources\SpecificationResource;
 use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
@@ -21,14 +22,23 @@ class ProductSimpleResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+//            'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
             'slug' => $this->slug,
+//            'brand' => new BrandResource($this->whenLoaded('brand')),
             'image' => $this->image ? url($this->image) : null,
             'hover' => $this->hover ? url($this->hover) : null,
-            'gallery' => collect($this->gallery)->map(fn ($image) => url($image))->all(),
+//            'gallery' => collect($this->gallery)->map(fn ($image) => url($image))->all(),
+//            'desc' => $this->desc,
+//            'excerpt' => $this->excerpt,
+//            'views' => $this->views,
+//            'colors' => $this->colors,
+            'english_name' => $this->english_name,
             'price' => $this->price,
+            'rate' => $this->rate,
+            //            'variants_availability' => $this->variants_availability,
+//            'display_name' => $this->display_name,
             'quantity' => $this->when(isset($this->quantity), str($this->quantity)), // موجودی
             'partner_price' => $this->partner_price,
             'user_price' => $this->user_price,
@@ -37,12 +47,17 @@ class ProductSimpleResource extends JsonResource
             'offer_price' => $this->offer_price,
             'date_from' => $this->when(isset($this->date_from), $this->date_from),
             'date_to' => $this->when(isset($this->date_to), $this->date_to),
-            'sku' => $this->when(isset($this->sku), $this->sku),
-            'product_code' => $this->when(isset($this->product_code), $this->product_code),
-            'warranty' => $this->warranty,
-            'color' => $this->color,
-            'attributes' => $this->attribute_values,
-            'status' => $this->status,
+//            'sku' => $this->when(isset($this->sku), $this->sku),
+//            'warranty' => $this->warranty,
+//            'color' => $this->color,
+//            'attributes' => $this->attribute_values,
+//            'status' => $this->status,
+            'is_liked' => $this->is_liked,
+//            'is_active' => $this->is_active,
+//            'options' => $this->options,
+            'default_variant' => new ProductVariantResource($this->default_variant),
+//            'grouped_specifications' => $this->grouped_specifications,
+//            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
         ];
     }
 }

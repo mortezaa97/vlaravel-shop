@@ -23,9 +23,10 @@ class ProductVariantResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
-            'hover' => $this->hover ? url($this->hover) : null,
-            'colors' => $this->colors,
-            'english_name' => $this->english_name,
+//            'image' => $this->image ? url($this->image) : null,
+//            'hover' => $this->hover ? url($this->hover) : null,
+//            'colors' => $this->colors,
+//            'english_name' => $this->english_name,
             'price' => $this->price,
             'quantity' => $this->when(isset($this->quantity), str($this->quantity)), // موجودی
             'partner_price' => $this->partner_price,
@@ -36,8 +37,7 @@ class ProductVariantResource extends JsonResource
             'date_from' => $this->when(isset($this->date_from), $this->date_from),
             'date_to' => $this->when(isset($this->date_to), $this->date_to),
             'sku' => $this->when(isset($this->sku), $this->sku),
-            'image' => $this->image ? url($this->image) : null,
-            'status' => $this->status,
+//            'status' => $this->status,
         ];
     }
 }
