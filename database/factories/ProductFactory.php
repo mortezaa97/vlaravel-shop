@@ -72,7 +72,7 @@ class ProductFactory extends Factory
             'views' => $this->faker->numberBetween(0, 10000), // Default 0, but random views for realism
             'is_original' => $this->faker->boolean(), // Boolean
             'increase_step' => $this->faker->numberBetween(1, 10), // Small integer for increment step
-            'parent_id' => $this->faker->optional(0.8)->randomElement($existingProductIds ?: [null]), // Nullable, occasionally references an existing product
+            'parent_id' => $this->faker->randomElement($existingProductIds ?: [null]), // Nullable, occasionally references an existing product
             'created_by' => $this->faker->randomElement($userIds),
             'updated_by' => $this->faker->optional()->randomElement(User::pluck('id')->toArray() ?: [null]), // Nullable
             'created_at' => $this->faker->dateTimeThisYear(),

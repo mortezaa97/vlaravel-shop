@@ -32,7 +32,7 @@ class FilterProductsController extends Controller
                 'tags' => $request->tags,
             ]));
 
-            $products = Cache::remember($cacheKey, 60 * 24, function () use ($request) {
+            $products = Cache::remember($cacheKey, 60, function () use ($request) {
                 $variantConditions = function ($q) use ($request) {
                     $q->where('price', '>', 0)
                         ->when($request->available, fn ($q) => $q->where('quantity', '>', 0))

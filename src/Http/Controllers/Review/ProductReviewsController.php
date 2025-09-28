@@ -2,6 +2,7 @@
 
 namespace Mortezaa97\Shop\Http\Controllers\Review;
 
+use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use Mortezaa97\Shop\Models\Product;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class ProductReviewsController extends Controller
                 Review::where('model_id', $product->id)
                     ->where('model_type', Product::class)
                     ->with('createdBy')
-                    ->currentStatus('تایید شده')
+                    ->where('status',Status::APPROVED)
                     ->get()
                     ->paginate(10)
             );
