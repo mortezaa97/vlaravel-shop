@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         Gate::authorize('viewAny', Product::class);
-        $products = Product::with('categories', 'reviews', 'specifications', 'children', 'tags')->get();
+        $products = Product::with('categories', 'reviews', 'specifications', 'children', 'tags')->parent()->get();
         return ProductResource::collection($products);
     }
 

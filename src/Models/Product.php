@@ -13,7 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -352,7 +351,6 @@ class Product extends Model
     //        return $this->hasMany(ProductQuestion::class, 'product_id');
     //    }
 
-
     public function categories(): MorphToMany
     {
         return $this->morphToMany(related: Category::class, name: 'model', table: 'model_has_categories', foreignPivotKey: 'model_id', relatedPivotKey: 'category_id');
@@ -366,6 +364,11 @@ class Product extends Model
         return $query->where('status', Status::PUBLISHED)->whereHas('children', function ($query) {
             $query->active();
         });
+    }
+
+    public function scopeParent($query)
+    {
+        return $query->whereNull('parent_id');
     }
 
     public function scopeAvailable($query)
