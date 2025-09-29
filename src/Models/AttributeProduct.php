@@ -41,15 +41,15 @@ class AttributeProduct extends Model
             $item->attribute_slug = $item->attribute->slug;
             $item->attribute_value_title = $item->value->title;
         });
-//        static::retrieved(function ($item) {
-//            AttributeProduct::where('attribute_id', $item->attribute_id)
-//                ->where('product_id', $item->product_id)
-//                ->update([
-//                    'attribute_name'=> $item->attribute->name,
-//                    'attribute_slug'=> $item->attribute->slug,
-//                    'attribute_value_title'=> $item->value->title,
-//                ]);
-//        });
+        static::retrieved(function ($item) {
+            AttributeProduct::where('attribute_id', $item->attribute_id)
+                ->where('product_id', $item->product_id)
+                ->update([
+                    'attribute_name'=> $item->attribute->name,
+                    'attribute_slug'=> $item->attribute->slug,
+                    'attribute_value_title'=> $item->value->title,
+                ]);
+        });
     }
 
 
