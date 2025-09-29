@@ -81,7 +81,7 @@ class ProductResource extends JsonResource
 //            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
             'variants' => ProductVariantResource::collection($this->children),
             'categories' => CategorySimpleResource::collection($this->categories),
-            'reviews' => ReviewResource::collection($this->reviews)->paginate(20),
+            'reviews' => ReviewResource::collection($this->reviews)->response()->getData(true),
             'tags' => TagResource::collection($this->tags),
         ];
     }
