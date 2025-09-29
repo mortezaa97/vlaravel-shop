@@ -42,5 +42,8 @@ class AttributeValue extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-
+    public function attribute(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Attribute::class, 'attribute_id');
+    }
 }

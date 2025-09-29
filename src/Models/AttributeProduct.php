@@ -56,8 +56,8 @@ class AttributeProduct extends Model
         return $this->belongsTo(AttributeValue::class, 'attribute_value_id');
     }
 
-    public function variant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Product::class, 'variant_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

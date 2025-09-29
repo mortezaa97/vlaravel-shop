@@ -99,32 +99,30 @@ class Product extends Model
 
     public function getOptionsAttribute()
     {
-        return $this->attributeProducts()
-            ->with(['attribute', 'value']) // Eager-load attribute and value
-            ->whereHas('attribute') // Ensure valid attributes
-            ->whereHas('value') // Ensure valid attribute values
-            ->withoutGlobalScopes()
-            ->get()
-            ->groupBy('attribute.name') // Group by attribute name
+        $childrenIds = $this->children()
+            ->where('quantity', '>', 0)
+            ->pluck('id')
+            ->toArray();
+        $attributeProducts = AttributeProduct::whereIn('product_id', $childrenIds)->with(['attribute', 'product', 'value'])->get();
+        return $attributeProducts->groupBy('attribute.name')
             ->map(function ($group) {
-                if (! $group || $group->isEmpty()) {
-                    return null;
-                }
-
                 $firstItem = $group->first();
-
-                if (! $firstItem->attribute) {
-                    return null;
-                }
-
                 return [
                     'slug' => $firstItem->attribute->slug,
                     'name' => $firstItem->attribute->name,
-                    'values' => $group->pluck('value.title')->values()->toArray(),
+                    'values' => $group->pluck('value.title')->unique()->values()->toArray(),
                 ];
+            })->values()->toArray();
+    }
+
+    public function getAttributesAttribute()
+    {
+        return $this->attributeValues()
+            ->with(['attribute'])
+            ->get()
+            ->mapWithKeys(function ($value) {
+                return [$value->attribute->slug => $value->title];
             })
-            ->filter() // Remove null entries
-            ->values() // Reset array keys
             ->toArray();
     }
 
@@ -175,7 +173,8 @@ class Product extends Model
 
     public function getRateAttribute()
     {
-        $averageRate = $this->reviews()->avg('rate') ?? 4.5;
+        // Use eager-loaded reviews to compute avg in PHP, avoiding DB query
+        $averageRate = $this->reviews->avg('rate') ?? 4.5;
 
         return number_format($averageRate, 1);
     }
@@ -304,9 +303,9 @@ class Product extends Model
         return $this->hasMany(AttributeProduct::class, 'product_id');
     }
 
-    public function attributeValues()
+    public function attributeValues(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasManyThrough(AttributeValue::class, AttributeProduct::class, 'product_id', 'attribute_value_id');
+        return $this->belongsToMany(AttributeValue::class, 'attribute_products', 'product_id', 'attribute_value_id');
     }
 
     public function reviews(): \Illuminate\Database\Eloquent\Relations\MorphMany
