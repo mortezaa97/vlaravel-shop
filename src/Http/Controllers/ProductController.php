@@ -14,14 +14,14 @@ class ProductController extends Controller
     public function index()
     {
         Gate::authorize('viewAny', Product::class);
-        $products = Product::with('categories', 'reviews', 'specifications', 'children', 'tags')->parent()->get();
+        $products = Product::with('categories', 'reviews', 'specifications.attribute.parent','specifications.value', 'children.attributeProducts', 'tags')->parent()->get();
         return ProductResource::collection($products);
     }
 
     public function show(Product $product)
     {
         Gate::authorize('view', $product);
-
+        $product->load('children.attributeProducts');
         return new ProductResource($product);
     }
 }

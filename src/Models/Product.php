@@ -103,57 +103,35 @@ class Product extends Model
             ->where('quantity', '>', 0)
             ->pluck('id')
             ->toArray();
-        $attributeProducts = AttributeProduct::whereIn('product_id', $childrenIds)->with(['attribute', 'product', 'value'])->get();
-        return $attributeProducts->groupBy('attribute.name')
+        $attributeProducts = AttributeProduct::whereIn('product_id', $childrenIds)->get();
+
+        return $attributeProducts->groupBy('attribute_slug')
             ->map(function ($group) {
-                $firstItem = $group->first();
+                $item = $group->first();
+
                 return [
-                    'slug' => $firstItem->attribute->slug,
-                    'name' => $firstItem->attribute->name,
-                    'values' => $group->pluck('value.title')->unique()->values()->toArray(),
+                    'slug' => $item->attribute_name,
+                    'name' => $item->attribute_slug,
+                    'values' => $group->pluck('attribute_value_title')->unique()->values()->toArray(),
                 ];
             })->values()->toArray();
     }
 
-    public function getAttributesAttribute()
-    {
-        return $this->attributeValues()
-            ->with(['attribute'])
-            ->get()
-            ->mapWithKeys(function ($value) {
-                return [$value->attribute->slug => $value->title];
-            })
-            ->toArray();
-    }
+    //    public function getAttributesAttribute()
+    //    {
+    //        return $this->attributeProducts
+    //            ->mapWithKeys(fn ($item) => [$item->attribute_slug => $item->attribute_value_title])
+    //            ->toArray();
+    //    }
 
-    public function getGroupedSpecificationsAttribute()
-    {
-        $specifications = $this->specifications()
-            ->with(['attribute.parent', 'value'])
-            ->get()
-            ->sortBy('attribute.parent.order')
-            ->groupBy('attribute.parent.name')
-            ->mapWithKeys(function ($group, $key) {
-                $newKey = empty($key) ? 'مشخصات کلی' : $key;
-
-                return [$newKey => $group->map(function ($spec) {
-                    return [
-                        'desc' => $spec->desc,
-                        'attribute' => [
-                            'name' => $spec->attribute->name,
-                            'slug' => $spec->attribute->slug,
-                        ],
-                        'value' => $spec->value ? [
-                            'title' => $spec->value->title,
-                            'hex' => $spec->value->hex,
-                            'desc' => $spec->value->desc,
-                        ] : null,
-                    ];
-                })];
-            });
-
-        return $specifications;
-    }
+    //    public function getGroupedSpecificationsAttribute()
+    //    {
+    //        $specifications = $this->specifications()
+    //            ->with(['attribute.parent', 'value'])
+    //            ->get()
+    //
+    //        return $specifications;
+    //    }
 
     public function getBreadcrumbsAttribute()
     {

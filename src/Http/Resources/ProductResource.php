@@ -58,7 +58,26 @@ class ProductResource extends JsonResource
             'options' => $this->options,
             'breadcrumbs' => $this->breadcrumbs,
             'default_variant' => new ProductVariantResource($this->default_variant),
-            'grouped_specifications' => $this->grouped_specifications,
+            'grouped_specifications' => $this->specifications->sortBy('attribute.parent.order')
+                ->groupBy('attribute.parent.name')
+                ->mapWithKeys(function ($group, $key) {
+                    $newKey = empty($key) ? 'مشخصات کلی' : $key;
+
+                    return [$newKey => $group->map(function ($spec) {
+                        return [
+                            'desc' => $spec->desc,
+                            'attribute' => [
+                                'name' => $spec->attribute->name,
+                                'slug' => $spec->attribute->slug,
+                            ],
+                            'value' => $spec->value ? [
+                                'title' => $spec->value->title,
+                                'hex' => $spec->value->hex,
+                                'desc' => $spec->value->desc,
+                            ] : null,
+                        ];
+                    })];
+                }),
 //            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
             'variants' => ProductVariantResource::collection($this->children),
             'categories' => CategorySimpleResource::collection($this->categories),
