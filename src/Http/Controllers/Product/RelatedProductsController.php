@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use Mortezaa97\Shop\Http\Resources\ProductResource;
 use App\Models\Category;
+use Mortezaa97\Shop\Http\Resources\ProductSimpleResource;
 use Mortezaa97\Shop\Models\Product;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class RelatedProductsController extends Controller
      */
     public function __invoke(Request $request,Product $product)
     {
-        $categories = $product->categories()->get();
+        $categories = $product->categories()->with('children')->get();
         if (! isset($categories)) {
             return [];
         }
@@ -26,8 +27,8 @@ class RelatedProductsController extends Controller
         $allCategoryIds = $categoryService->getCategoryChildrenIds($categories);
         $allCategories = Category::whereIn('id', $allCategoryIds)->get();
 
-        return ProductResource::collection(Product::whereHas('categories', function ($query) use ($allCategories) {
+        return ProductSimpleResource::collection(Product::whereHas('categories', function ($query) use ($allCategories) {
             $query->whereIn('category_id', $allCategories->pluck('id'));
-        })->where('id', '!=', $product->id)->where('status',Status::PUBLISHED)->take(15)->get());
+        })->with('reviews')->where('id', '!=', $product->id)->where('status',Status::PUBLISHED)->take(15)->get());
     }
 }
