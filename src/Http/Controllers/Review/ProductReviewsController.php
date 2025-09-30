@@ -19,15 +19,13 @@ class ProductReviewsController extends Controller
      */
     public function __invoke(Request $request, Product $product)
     {
-        $reviews = Cache::remember('product_reviews_' . $product->id, 60 * 24, function () use ($product) {
-            return ReviewResource::collection(
+        $reviews = ReviewResource::collection(
                 Review::where('model_id', $product->id)
                     ->where('model_type', Product::class)
                     ->with('createdBy')
                     ->where('status', Status::APPROVED)
                     ->paginate()
             );
-        });
 
         return response()->json($reviews->response()->getData(true));
     }
