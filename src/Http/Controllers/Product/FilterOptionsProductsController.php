@@ -57,6 +57,7 @@ class FilterOptionsProductsController extends Controller
             $categories = Category::query()
                 ->whereNull('parent_id')
                 ->where('model_type', Product::class)
+                ->withCount('products')
                 ->get();
 
             return response()->json([

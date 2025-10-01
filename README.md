@@ -16,8 +16,12 @@ composer require mortezaa97/shop
 
 ## Usage
 
+You can use ProductTrait for your models to add relation of products in your model,
 ```php
-// Usage description here
+use Mortezaa97\Shop\Traits\ProductTrait;
+```
+```php
+use ProductTrait;
 ```
 
 ### Testing
