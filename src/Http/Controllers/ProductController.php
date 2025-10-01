@@ -22,7 +22,10 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         Gate::authorize('view', $product);
-        $product->load('children.attributeProducts');
+        $product->load([
+            'children'=>fn($q)=> $q->available(),
+            'children.attributeProducts'
+        ]);
         return new ProductResource($product);
     }
 }
