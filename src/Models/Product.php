@@ -152,9 +152,9 @@ class Product extends Model
     public function getRateAttribute()
     {
         // Use eager-loaded reviews to compute avg in PHP, avoiding DB query
-        $averageRate = $this->reviews->avg('rate') ?? 4.5;
+        $averageRate = $this->reviews()->avg('rate') ?? 4.5;
 
-        return number_format($averageRate, 1);
+        return number_format((float)$averageRate, 1);
     }
 
     public function getIsLikedAttribute()
