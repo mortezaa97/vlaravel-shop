@@ -36,7 +36,7 @@ class ProductResource extends JsonResource
             'rate' => $this->rate,
             //            'variants_availability' => $this->variants_availability,
 //            'display_name' => $this->display_name,
-            'quantity' => $this->when(isset($this->quantity), str($this->quantity)), // موجودی
+//            'quantity' => $this->when(isset($this->quantity), str($this->quantity)), // موجودی
             'partner_price' => $this->partner_price,
             'user_price' => $this->user_price,
             'sale_price' => $this->sale_price,
