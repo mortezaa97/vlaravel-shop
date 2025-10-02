@@ -122,6 +122,6 @@ class FilterProductsController extends Controller
             return response()->json($e->getMessage(), 500);
         }
 
-        return response()->json($products->paginate());
+        return response()->json($products->response()->getData(true));
     }
 }
