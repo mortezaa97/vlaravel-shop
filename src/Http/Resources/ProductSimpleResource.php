@@ -56,6 +56,7 @@ class ProductSimpleResource extends JsonResource
 //            'is_active' => $this->is_active,
 //            'options' => $this->options,
             'default_variant' => new ProductVariantResource($this->default_variant),
+            'children' => CategorySimpleResource::collection($this->whenLoaded('categories')),
 //            'grouped_specifications' => $this->grouped_specifications,
 //            'specifications' => SpecificationResource::collection($this->specifications->load('attribute', 'value')),
         ];
