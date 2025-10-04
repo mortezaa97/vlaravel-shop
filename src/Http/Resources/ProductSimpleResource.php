@@ -38,7 +38,7 @@ class ProductSimpleResource extends JsonResource
             //            'quantity' => $this->when(isset($this->quantity), str($this->quantity)), // موجودی
             //            'partner_price' => $this->partner_price,
             //            'user_price' => $this->user_price,
-            //            'sale_price' => $this->sale_price,
+                        'sale_price' => $this->sale_price,
             //            'on_sale' => $this->on_sale,
             //            'offer_price' => $this->offer_price,
             //            'date_from' => $this->when(isset($this->date_from), $this->date_from),
