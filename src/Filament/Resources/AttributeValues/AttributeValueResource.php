@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\AttributeValues;
 
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Filament\Resources\AttributeValues\Pages\CreateAttributeValue;
 use Mortezaa97\Shop\Filament\Resources\AttributeValues\Pages\EditAttributeValue;
 use Mortezaa97\Shop\Filament\Resources\AttributeValues\Pages\ListAttributeValues;
 use Mortezaa97\Shop\Filament\Resources\AttributeValues\Schemas\AttributeValueForm;
 use Mortezaa97\Shop\Filament\Resources\AttributeValues\Tables\AttributeValuesTable;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Models\AttributeValue;
+use UnitEnum;
 
 class AttributeValueResource extends Resource
 {
@@ -26,7 +27,8 @@ class AttributeValueResource extends Resource
 
     protected static ?string $pluralModelLabel = 'مقادیرویژگی ها';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+
     protected static ?string $recordTitleAttribute = 'مقادیر مجاز ویژگی ها';
 
     public static function form(Schema $schema): Schema

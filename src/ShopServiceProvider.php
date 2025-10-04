@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mortezaa97\Shop;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Mortezaa97\Shop\Models\Attribute;
@@ -18,7 +19,6 @@ use Mortezaa97\Shop\Policies\AttributeProductPolicy;
 use Mortezaa97\Shop\Policies\AttributeValuePolicy;
 use Mortezaa97\Shop\Policies\ProductPolicy;
 use Mortezaa97\Shop\Policies\SpecificationPolicy;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ShopServiceProvider extends ServiceProvider
 {

@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\Specifications;
 
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Filament\Resources\Specifications\Pages\CreateSpecification;
 use Mortezaa97\Shop\Filament\Resources\Specifications\Pages\EditSpecification;
 use Mortezaa97\Shop\Filament\Resources\Specifications\Pages\ListSpecifications;
 use Mortezaa97\Shop\Filament\Resources\Specifications\Schemas\SpecificationForm;
 use Mortezaa97\Shop\Filament\Resources\Specifications\Tables\SpecificationsTable;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Models\Specification;
+use UnitEnum;
 
 class SpecificationResource extends Resource
 {
@@ -26,7 +27,8 @@ class SpecificationResource extends Resource
 
     protected static ?string $pluralModelLabel = 'مشخصات';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+
     protected static ?string $recordTitleAttribute = 'Specification';
 
     public static function form(Schema $schema): Schema

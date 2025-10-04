@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Mortezaa97\Shop\Models\AttributeCategory;
-use Illuminate\Http\Request;;
-use Illuminate\Support\Facades\Gate;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Mortezaa97\Shop\Http\Resources\AttributeCategoryResource;
+use Mortezaa97\Shop\Models\AttributeCategory;
+
 class AttributeCategoryController extends Controller
 {
     public function index()
     {
         Gate::authorize('viewAny', AttributeCategory::class);
+
         return AttributeCategoryResource::collection(AttributeCategory::all());
     }
 
@@ -22,15 +27,17 @@ class AttributeCategoryController extends Controller
         try {
             DB::beginTransaction();
             DB::commit();
-        } catch (\Exception $exception) {
-            return response()->json($exception->getMessage(),419);
+        } catch (Exception $exception) {
+            return response()->json($exception->getMessage(), 419);
         }
+
         return new AttributeCategoryResource($attributeCategory);
     }
 
     public function show(AttributeCategory $attributeCategory)
     {
         Gate::authorize('view', $attributeCategory);
+
         return new AttributeCategoryResource($attributeCategory);
     }
 
@@ -40,9 +47,10 @@ class AttributeCategoryController extends Controller
         try {
             DB::beginTransaction();
             DB::commit();
-        } catch (\Exception $exception) {
-            return response()->json($exception->getMessage(),419);
+        } catch (Exception $exception) {
+            return response()->json($exception->getMessage(), 419);
         }
+
         return new AttributeCategoryResource($attributeCategory);
     }
 
@@ -52,9 +60,10 @@ class AttributeCategoryController extends Controller
         try {
             DB::beginTransaction();
             DB::commit();
-        } catch (\Exception $exception) {
-            return response()->json($exception->getMessage(),419);
+        } catch (Exception $exception) {
+            return response()->json($exception->getMessage(), 419);
         }
-        return response()->json("با موفقیت حذف شد");
+
+        return response()->json('با موفقیت حذف شد');
     }
 }

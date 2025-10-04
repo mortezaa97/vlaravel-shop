@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;

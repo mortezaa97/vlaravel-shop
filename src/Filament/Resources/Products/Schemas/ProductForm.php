@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\Products\Schemas;
 
-use Mortezaa97\Shop\Models\Product;
 use Filament\Schemas\Schema;
+use Mortezaa97\Shop\Models\Product;
 
 class ProductForm
 {

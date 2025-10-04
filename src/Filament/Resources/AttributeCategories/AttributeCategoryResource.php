@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\AttributeCategories;
 
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Filament\Resources\AttributeCategories\Pages\CreateAttributeCategory;
 use Mortezaa97\Shop\Filament\Resources\AttributeCategories\Pages\EditAttributeCategory;
 use Mortezaa97\Shop\Filament\Resources\AttributeCategories\Pages\ListAttributeCategories;
 use Mortezaa97\Shop\Filament\Resources\AttributeCategories\Schemas\AttributeCategoryForm;
 use Mortezaa97\Shop\Filament\Resources\AttributeCategories\Tables\AttributeCategoriesTable;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Models\AttributeCategory;
+use UnitEnum;
 
 class AttributeCategoryResource extends Resource
 {
@@ -26,7 +27,7 @@ class AttributeCategoryResource extends Resource
 
     protected static ?string $pluralModelLabel = 'ویژگی های دسته بندی';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
 
     protected static ?string $recordTitleAttribute = 'ویژگی های دسته بندی';
 

@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\Attributes;
 
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Filament\Resources\Attributes\Pages\CreateAttribute;
 use Mortezaa97\Shop\Filament\Resources\Attributes\Pages\EditAttribute;
 use Mortezaa97\Shop\Filament\Resources\Attributes\Pages\ListAttributes;
 use Mortezaa97\Shop\Filament\Resources\Attributes\Schemas\AttributeForm;
 use Mortezaa97\Shop\Filament\Resources\Attributes\Tables\AttributesTable;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Models\Attribute;
+use UnitEnum;
 
 class AttributeResource extends Resource
 {
@@ -26,7 +27,8 @@ class AttributeResource extends Resource
 
     protected static ?string $pluralModelLabel = 'ویژگی ها';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+
     protected static ?string $recordTitleAttribute = 'ویژگی ها';
 
     public static function form(Schema $schema): Schema

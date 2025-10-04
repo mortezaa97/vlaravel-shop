@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Mortezaa97\Shop\Http\Resources\ProductResource;
 use Mortezaa97\Shop\Http\Resources\ProductSimpleResource;
 use Mortezaa97\Shop\Models\Product;
 
@@ -21,17 +20,17 @@ class FilterProductsController extends Controller
     {
         try {
             $cacheKey = 'products_filter_' . md5(json_encode([
-                    'available' => $request->available,
-                    'min_price' => $request->min_price,
-                    'max_price' => $request->max_price,
-                    'categories' => $request->categories,
-                    'brands' => $request->brands,
-                    'search' => $request->search,
-                    'url' => $request->url,
-                    'order' => $request->order,
-                    'page' => $request->page ?? 1,
-                    'tags' => $request->tags,
-                ]));
+                'available' => $request->available,
+                'min_price' => $request->min_price,
+                'max_price' => $request->max_price,
+                'categories' => $request->categories,
+                'brands' => $request->brands,
+                'search' => $request->search,
+                'url' => $request->url,
+                'order' => $request->order,
+                'page' => $request->page ?? 1,
+                'tags' => $request->tags,
+            ]));
 
             $products = Cache::remember($cacheKey, 1, function () use ($request) { // @todo
                 $variantConditions = function ($q) use ($request) {

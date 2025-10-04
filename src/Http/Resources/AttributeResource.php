@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Http\Resources;
 
-use Mortezaa97\Shop\Models\Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Mortezaa97\Shop\Models\Attribute;
 
 class AttributeResource extends JsonResource
 {

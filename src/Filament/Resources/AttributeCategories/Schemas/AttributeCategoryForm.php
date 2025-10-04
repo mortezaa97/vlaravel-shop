@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\AttributeCategories\Schemas;
 
 use Filament\Schemas\Schema;

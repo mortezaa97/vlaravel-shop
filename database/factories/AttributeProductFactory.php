@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mortezaa97\Shop\Database\Factories;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
 use Mortezaa97\Shop\Models\AttributeCategory;
@@ -42,7 +43,7 @@ class AttributeProductFactory extends Factory
                 ->groupBy('product_id');
 
             if ($productCategories->isEmpty()) {
-                throw new \Exception('No products with categories available.');
+                throw new Exception('No products with categories available.');
             }
 
             // Get existing pairs to exclude, grouped by product_id
@@ -68,7 +69,7 @@ class AttributeProductFactory extends Factory
                 $existingAttributesForProduct = $existingPairs[$productId] ?? [];
 
                 foreach ($eligibleAttributeIds as $attributeId) {
-                    if (!in_array($attributeId, $existingAttributesForProduct)) {
+                    if (! in_array($attributeId, $existingAttributesForProduct)) {
                         $eligiblePairs[] = [
                             'product_id' => $productId,
                             'attribute_id' => $attributeId,
@@ -78,7 +79,7 @@ class AttributeProductFactory extends Factory
             }
 
             if (empty($eligiblePairs)) {
-                throw new \Exception('No unique product_id and attribute_id combinations available.');
+                throw new Exception('No unique product_id and attribute_id combinations available.');
             }
 
             static::$availablePairs = $eligiblePairs;
@@ -86,7 +87,7 @@ class AttributeProductFactory extends Factory
         }
 
         if (empty(static::$availablePairs)) {
-            throw new \Exception('No unique product_id and attribute_id combinations available.');
+            throw new Exception('No unique product_id and attribute_id combinations available.');
         }
 
         // Pick and remove a random eligible pair

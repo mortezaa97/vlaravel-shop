@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Mortezaa97\Shop\Http\Resources\ProductResource;
 use Mortezaa97\Shop\Models\Product;
 use Mortezaa97\Shop\Models\Specification;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+
 class CompareProductsController extends Controller
 {
     /**

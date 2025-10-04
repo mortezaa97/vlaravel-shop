@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Mortezaa97\Shop\Models;
 
-use Mortezaa97\Shop\Models\Attribute;
-use Mortezaa97\Shop\Models\AttributeValue;
-use Mortezaa97\Shop\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

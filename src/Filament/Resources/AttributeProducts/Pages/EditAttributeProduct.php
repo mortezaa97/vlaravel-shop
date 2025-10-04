@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\AttributeProducts\Pages;
 
-use Mortezaa97\Shop\Filament\Resources\AttributeProducts\AttributeProductResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
+use Mortezaa97\Shop\Filament\Resources\AttributeProducts\AttributeProductResource;
 
 class EditAttributeProduct extends EditRecord
 {

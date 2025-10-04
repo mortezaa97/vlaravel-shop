@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mortezaa97\Shop\Filament\Resources\Products;
 
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Filament\Resources\Products\Pages\CreateProduct;
 use Mortezaa97\Shop\Filament\Resources\Products\Pages\EditProduct;
 use Mortezaa97\Shop\Filament\Resources\Products\Pages\ListProducts;
 use Mortezaa97\Shop\Filament\Resources\Products\Schemas\ProductForm;
 use Mortezaa97\Shop\Filament\Resources\Products\Tables\ProductsTable;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mortezaa97\Shop\Models\Product;
+use UnitEnum;
 
 class ProductResource extends Resource
 {
@@ -26,7 +27,8 @@ class ProductResource extends Resource
 
     protected static ?string $pluralModelLabel = 'محصولات';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+
     protected static ?string $recordTitleAttribute = 'محصولات';
 
     public static function form(Schema $schema): Schema

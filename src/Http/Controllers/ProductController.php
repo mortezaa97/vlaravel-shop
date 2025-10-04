@@ -16,6 +16,7 @@ class ProductController extends Controller
     {
         Gate::authorize('viewAny', Product::class);
         $products = Product::with('categories', 'reviews', 'specifications.attribute.parent', 'specifications.value', 'children.attributeProducts', 'tags')->parent()->get();
+
         return ProductSimpleResource::collection($products);
     }
 
@@ -23,9 +24,10 @@ class ProductController extends Controller
     {
         Gate::authorize('view', $product);
         $product->load([
-            'children'=>fn($q)=> $q->available(),
-            'children.attributeProducts'
+            'children'=>fn ($q) => $q->available(),
+            'children.attributeProducts',
         ]);
+
         return new ProductResource($product);
     }
 }
