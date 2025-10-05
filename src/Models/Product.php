@@ -177,8 +177,7 @@ class Product extends Model
 
     public function getOnSaleAttribute()
     {
-        return $this->children()
-            ->available()
+        return $this
             ->whereNotNull('sale_price')
             ->where('date_from', '<=', Carbon::today()->toDateString())
             ->where('date_to', '>=', Carbon::today()->toDateString())
