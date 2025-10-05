@@ -31,7 +31,7 @@ class ProductSimpleResource extends JsonResource
             //            'views' => $this->views,
             //            'colors' => $this->colors,
             'english_name' => $this->english_name,
-            //            'price' => $this->price,
+            'price' => $this->price,
             'rate' => $this->rate,
             //            'variants_availability' => $this->variants_availability,
             //            'display_name' => $this->display_name,
