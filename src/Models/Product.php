@@ -177,11 +177,13 @@ class Product extends Model
 
     public function getOnSaleAttribute()
     {
-        return $this
-            ->whereNotNull('sale_price')
-            ->where('date_from', '<=', Carbon::today()->toDateString())
-            ->where('date_to', '>=', Carbon::today()->toDateString())
-            ->exists();
+        if (is_null($this->sale_price)) {
+            return false;
+        }
+
+        $today = Carbon::today()->toDateString();
+
+        return $this->date_from <= $today && $this->date_to >= $today;
     }
 
     public function getDefaultVariantAttribute()
