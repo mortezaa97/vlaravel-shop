@@ -69,6 +69,7 @@ class ProductForm
                             \App\Filament\Components\Form\ViewsTextInput::create()->required(),
                             \App\Filament\Components\Form\IsOriginalToggle::create()->required(),
                             \Filament\Forms\Components\TextInput::make('increase_step')->required()->columnSpan(12),
+                            \App\Filament\Components\Form\CategoriesSelect::create(Product::class),
                             \App\Filament\Components\Form\CreatedBySelect::create()->required(),
                             \App\Filament\Components\Form\UpdatedBySelect::create(),
                         ])
