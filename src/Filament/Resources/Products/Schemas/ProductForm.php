@@ -46,7 +46,15 @@ class ProductForm
 
                         ])
                         ->columnSpan(12),
-                    \Mortezaa97\Shop\Filament\Components\Form\ProductChildrenRepeater::create(),
+                    \Filament\Schemas\Components\Section::make('تنوع‌های محصول')
+                        ->schema([
+                            \Mortezaa97\Shop\Filament\Components\Form\ProductChildrenRepeater::create()
+                                ->columnSpan(12),
+                        ])
+                        ->collapsible()
+                        ->collapsed()
+                        ->columns(12)
+                        ->columnSpan(12),
                 ])
                 ->columns(12)
                 ->columnSpan(8),
