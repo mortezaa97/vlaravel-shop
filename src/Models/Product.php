@@ -313,7 +313,7 @@ class Product extends Model
     public function scopeActive($query)
     {
         return $query->where('status', Status::PUBLISHED)->whereHas('children', function ($query) {
-            $query->active();
+            $query->where('status', Status::PUBLISHED);
         });
     }
 

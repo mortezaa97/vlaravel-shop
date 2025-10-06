@@ -20,4 +20,9 @@ trait ProductTrait
             relatedPivotKey: 'model_id'
         );
     }
+
+    public function getProductsCountAttribute()
+    {
+        return $this->products()->count();
+    }
 }
