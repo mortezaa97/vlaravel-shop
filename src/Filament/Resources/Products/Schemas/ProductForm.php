@@ -45,8 +45,8 @@ class ProductForm
                             \Filament\Forms\Components\TextInput::make('parent_id'),
 
                         ])
-                        ->columns(12)
                         ->columnSpan(12),
+                    \Mortezaa97\Shop\Filament\Components\Form\ProductChildrenRepeater::create(),
                 ])
                 ->columns(12)
                 ->columnSpan(8),
