@@ -4,91 +4,116 @@ declare(strict_types=1);
 
 namespace Mortezaa97\Shop\Filament\Components\Form;
 
-use App\Filament\Components\Form\CreatedByHidden;
-use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Support\Facades\Auth;
 use Mortezaa97\Shop\Models\Attribute;
 use Mortezaa97\Shop\Models\AttributeValue;
-use Mortezaa97\Shop\Models\Product;
 
 class ProductChildAttributesRepeater
 {
-    public static function create(): Repeater
+    public static function create(): Fieldset
     {
-        return Repeater::make('attributeProducts')
-            ->hiddenLabel()
-            ->relationship()
-            ->schema([
-                Select::make('attribute_id')
-                    ->label('ویژگی')
-                    ->options(function (Get $get, $state) {
-                        // Get category IDs from the main product form
-                        // Path: attributeProducts -> child item -> children repeater -> main form
-                        $categoryIds = $get('../../../../categories');
+        return Fieldset::make('ویژگی‌ها')
+            ->columns(1)
+            ->schema(function (Get $get, $record) {
+                // Get category IDs from the parent product record
+                $categoryIds = null;
 
-                        if (! $categoryIds || empty($categoryIds)) {
-                            return [];
-                        }
-
-                        // Get attributes that are associated with these categories and can be used for variants
-                        $attributes = Attribute::whereHas('categories', function ($query) use ($categoryIds) {
-                            $query->whereIn('category_id', $categoryIds)
-                                ->where('can_variant', true);
-                        })->get();
-
-                        return $attributes->pluck('name', 'id')->toArray();
-                    })
-                    ->required()
-                    ->live()
-                    ->searchable()
-                    ->preload()
-                    ->afterStateUpdated(function ($state, Set $set) {
-                        if (! $state) {
-                            $set('attribute_value_id', null);
-
-                            return;
-                        }
-                    })
-                    ->columnSpan(6),
-
-                Select::make('attribute_value_id')
-                    ->label('مقدار ویژگی')
-                    ->options(function (Get $get) {
-                        $attributeId = $get('attribute_id');
-                        if (! $attributeId) {
-                            return [];
-                        }
-
-                        return AttributeValue::where('attribute_id', $attributeId)
-                            ->pluck('title', 'id');
-                    })
-                    ->required()
-                    ->searchable()
-                    ->preload()
-                    ->columnSpan(6),
-
-                CreatedByHidden::create(),
-            ])
-            ->columns(12)
-            ->collapsible()
-            ->collapsed()
-            ->itemLabel(function (array $state): ?string {
-                if (! isset($state['attribute_id']) || ! isset($state['attribute_value_id'])) {
-                    return null;
+                // If we have a record (child product), try to get categories from its parent
+                if ($record && $record->exists && $record->parent_id) {
+                    $parent = $record->parent()->first();
+                    if ($parent) {
+                        $categoryIds = $parent->categories()->pluck('categories.id')->toArray();
+                    }
                 }
 
-                $attribute = Attribute::find($state['attribute_id']);
-                $value = AttributeValue::find($state['attribute_value_id']);
+                // Fall back to form state if we don't have a parent record yet (creating new child)
+                if (! $categoryIds || empty($categoryIds)) {
+                    $categoryIds = $get('../../categories');
+                }
 
-                return ($attribute?->name ?? '') . ': ' . ($value?->title ?? '');
-            })
-            ->addActionLabel('افزودن ویژگی')
-            ->reorderableWithButtons()
-            ->deleteAction(
-                fn ($action) => $action->requiresConfirmation()
-            )
-            ->defaultItems(0);
+                if (! $categoryIds || empty($categoryIds)) {
+                    return [
+                        Placeholder::make('no_categories')
+                            ->label('')
+                            ->content('لطفاً ابتدا دسته‌بندی‌های محصول را در مرحله "دسته‌بندی و وضعیت" انتخاب کنید.')
+                            ->columnSpanFull(),
+                    ];
+                }
+
+                // Get attributes that are associated with these categories and can be used for variants
+                $attributes = Attribute::whereHas('categories', function ($query) use ($categoryIds) {
+                    $query->whereIn('category_id', $categoryIds)
+                        ->where('can_variant', true);
+                })
+                    ->orderBy('name')
+                    ->get();
+
+                if ($attributes->isEmpty()) {
+                    return [
+                        Placeholder::make('no_attributes')
+                            ->label('')
+                            ->content('هیچ ویژگی قابل استفاده برای تنوع در دسته‌بندی‌های انتخاب شده تعریف نشده است.')
+                            ->columnSpanFull(),
+                    ];
+                }
+
+                // Get existing attribute products for this child variant
+                $existingAttributeProducts = [];
+                if ($record && $record->exists) {
+                    $existingAttributeProducts = $record->attributeProducts()
+                        ->pluck('attribute_value_id', 'attribute_id')
+                        ->toArray();
+                }
+
+                $components = [];
+                foreach ($attributes as $attribute) {
+                    $components[] = Select::make("attribute_{$attribute->id}")
+                        ->label($attribute->name)
+                        ->options(function () use ($attribute) {
+                            return AttributeValue::where('attribute_id', $attribute->id)
+                                ->orderBy('title')
+                                ->pluck('title', 'id');
+                        })
+                        ->searchable()
+                        ->preload()
+                        ->placeholder('انتخاب کنید...')
+                        ->afterStateHydrated(function (Select $component, $state, $record) use ($attribute, $existingAttributeProducts) {
+                            // Hydrate from existing relationship data
+                            if (isset($existingAttributeProducts[$attribute->id])) {
+                                $component->state($existingAttributeProducts[$attribute->id]);
+                            }
+                        })
+                        ->afterStateUpdated(function ($state, Get $get, $record) use ($attribute) {
+                            // Handle saving the relationship
+                            if ($record && $record->exists) {
+                                if ($state) {
+                                    // Update or create the attribute product
+                                    $record->attributeProducts()->updateOrCreate(
+                                        ['attribute_id' => $attribute->id],
+                                        [
+                                            'attribute_value_id' => $state,
+                                            'created_by' => Auth::id(),
+                                            'updated_by' => Auth::id(),
+                                        ]
+                                    );
+                                } else {
+                                    // Remove the attribute product if deselected
+                                    $record->attributeProducts()
+                                        ->where('attribute_id', $attribute->id)
+                                        ->delete();
+                                }
+                            }
+                        })
+                        ->live(onBlur: true)
+                        ->dehydrated(false) // Don't save to main form data
+                        ->columnSpanFull();
+                }
+
+                return $components;
+            });
     }
 }

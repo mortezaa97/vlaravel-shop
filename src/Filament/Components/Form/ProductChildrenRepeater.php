@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mortezaa97\Shop\Filament\Components\Form;
 
 use Filament\Forms\Components\Repeater;
-use Filament\Schemas\Components\Section;
 
 class ProductChildrenRepeater
 {
@@ -24,19 +23,13 @@ class ProductChildrenRepeater
                     ->columnSpan(6),
                 \App\Filament\Components\Form\CreatedByHidden::create(),
 
-                Section::make('ویژگی‌های تنوع')
-                    ->schema([
-                        ProductChildAttributesRepeater::create()
-                            ->columnSpan(12),
-                    ])
-                    ->collapsible()
-                    ->collapsed()
-                    ->columns(12)
+                ProductChildAttributesRepeater::create()
                     ->columnSpan(12),
             ])
             ->columns(12)
             ->collapsible()
             ->collapsed()
+            ->defaultItems(0)
             ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
             ->addActionLabel('افزودن تنوع')
             ->reorderableWithButtons()
