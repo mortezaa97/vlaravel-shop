@@ -23,7 +23,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           PUSHER_USERNAME: ${{ github.actor }}
         run: |
-          TARGET_BRANCH="develop"
+          TARGET_BRANCH="main"
           SOURCE_BRANCH="${GITHUB_REF#refs/heads/}"
 
           # Check if PR already exists
