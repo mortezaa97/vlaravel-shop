@@ -8,6 +8,7 @@ use App\Filament\Components\Form\CreatedByHidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Mortezaa97\Shop\Models\Attribute;
 use Mortezaa97\Shop\Models\AttributeValue;
 use Mortezaa97\Shop\Models\Product;
@@ -17,25 +18,19 @@ class ProductChildAttributesRepeater
     public static function create(): Repeater
     {
         return Repeater::make('attributeProducts')
-            ->label('ویژگی‌های محصول')
+            ->hiddenLabel()
             ->relationship()
             ->schema([
                 Select::make('attribute_id')
                     ->label('ویژگی')
                     ->options(function (Get $get, $state) {
-                        // Get the parent product to access its categories
-                        $parentProduct = $get('../../..');
-                        if (! $parentProduct || ! isset($parentProduct['id'])) {
+                        // Get category IDs from the main product form
+                        // Path: attributeProducts -> child item -> children repeater -> main form
+                        $categoryIds = $get('../../../../categories');
+
+                        if (! $categoryIds || empty($categoryIds)) {
                             return [];
                         }
-
-                        $product = Product::with('categories')->find($parentProduct['id']);
-                        if (! $product) {
-                            return [];
-                        }
-
-                        // Get category IDs from the parent product
-                        $categoryIds = $product->categories->pluck('id')->toArray();
 
                         // Get attributes that are associated with these categories and can be used for variants
                         $attributes = Attribute::whereHas('categories', function ($query) use ($categoryIds) {
@@ -46,8 +41,16 @@ class ProductChildAttributesRepeater
                         return $attributes->pluck('name', 'id')->toArray();
                     })
                     ->required()
-                    ->reactive()
+                    ->live()
                     ->searchable()
+                    ->preload()
+                    ->afterStateUpdated(function ($state, Set $set) {
+                        if (! $state) {
+                            $set('attribute_value_id', null);
+
+                            return;
+                        }
+                    })
                     ->columnSpan(6),
 
                 Select::make('attribute_value_id')
@@ -58,12 +61,12 @@ class ProductChildAttributesRepeater
                             return [];
                         }
 
-                        $values = AttributeValue::where('attribute_id', $attributeId)->get();
-
-                        return $values->pluck('title', 'id')->toArray();
+                        return AttributeValue::where('attribute_id', $attributeId)
+                            ->pluck('title', 'id');
                     })
                     ->required()
                     ->searchable()
+                    ->preload()
                     ->columnSpan(6),
 
                 CreatedByHidden::create(),
@@ -71,16 +74,21 @@ class ProductChildAttributesRepeater
             ->columns(12)
             ->collapsible()
             ->collapsed()
-            ->itemLabel(
-                fn (array $state): ?string => $state['attribute_id'] ?
-                Attribute::find($state['attribute_id'])?->name . ': ' .
-                ($state['attribute_value_id'] ? AttributeValue::find($state['attribute_value_id'])?->title : '')
-                : null
-            )
+            ->itemLabel(function (array $state): ?string {
+                if (! isset($state['attribute_id']) || ! isset($state['attribute_value_id'])) {
+                    return null;
+                }
+
+                $attribute = Attribute::find($state['attribute_id']);
+                $value = AttributeValue::find($state['attribute_value_id']);
+
+                return ($attribute?->name ?? '') . ': ' . ($value?->title ?? '');
+            })
             ->addActionLabel('افزودن ویژگی')
             ->reorderableWithButtons()
             ->deleteAction(
                 fn ($action) => $action->requiresConfirmation()
-            );
+            )
+            ->defaultItems(0);
     }
 }
