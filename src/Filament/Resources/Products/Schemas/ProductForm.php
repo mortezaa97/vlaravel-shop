@@ -78,6 +78,13 @@ class ProductForm
                 ])
                 ->columns(12)
                 ->columnSpan(4),
+            \Filament\Schemas\Components\Section::make('تنوع محصولات')
+                ->schema([
+                    \App\Filament\Components\Form\ProductChildrenRepeater::create(),
+                ])
+                ->collapsed()
+                ->collapsible()
+                ->columnSpan(8),
         ])
             ->columns(12);
     }
