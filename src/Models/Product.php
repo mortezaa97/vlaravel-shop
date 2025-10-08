@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Mortezaa97\Orders\Traits\OrderTrait;
 use Mortezaa97\Reviews\Models\Review;
 use Mortezaa97\Wishlist\Models\Wishlist;
 
@@ -25,6 +26,7 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use OrderTrait;
 
     protected $casts = [
         'gallery' => 'json',
