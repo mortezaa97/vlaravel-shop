@@ -7,8 +7,8 @@ namespace Mortezaa97\Shop\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Models\Page;
 use Illuminate\Http\Request;
+use Mortezaa97\Pages\Models\Page;
 use Mortezaa97\Shop\Models\Attribute;
 use Mortezaa97\Shop\Models\Product;
 
