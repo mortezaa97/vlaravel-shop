@@ -23,6 +23,6 @@ trait ProductTrait
 
     public function getProductsCountAttribute()
     {
-        return $this->products()->count();
+        return $this->products()->scopes('parent')->count();
     }
 }
