@@ -23,7 +23,7 @@ class ProductChildrenRepeater
                     ->columnSpan(6),
                 \App\Filament\Components\Form\CreatedByHidden::create(),
 
-                ProductChildAttributesRepeater::create()
+                ProductChildAttributesFieldset::create()
                     ->columnSpan(12),
             ])
             ->columns(12)
