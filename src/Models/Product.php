@@ -111,11 +111,11 @@ class Product extends Model
             ->map(function ($group) {
                 $item = $group->first();
 
-                return [
-                    'slug' => $item->attribute_name,
-                    'name' => $item->attribute_slug,
+                return array(
+                    'slug' => $item->attribute_slug,
+                    'name' => $item->attribute_name,
                     'values' => $group->pluck('attribute_value_title')->unique()->values()->toArray(),
-                ];
+                );
             })->values()->toArray();
     }
 
