@@ -63,6 +63,19 @@ class FilterProductsController extends Controller
                         $q->whereHas('tags', function ($q) use ($tags) {
                             $q->whereIn('slug', $tags);
                         });
+                    })
+                    ->when($request->has('attributes') ?? null, function ($q) use ($request) {
+                        foreach ($request->attributes as $attributeJson) {
+                            $attribute = json_decode($attributeJson, true);
+                            if ($attribute && isset($request->attributes, $attribute['attribute_value_id'])) {
+                                $q->whereHas('variants', function ($query) use ($attribute) {
+                                    $query->active()->whereHas('attributeVariants', function ($subQuery) use ($attribute) {
+                                        $subQuery->where('attribute_id', $attribute['attribute_id'])
+                                            ->where('attribute_value_id', $attribute['attribute_value_id']);
+                                    });
+                                });
+                            }
+                        }
                     });
 
                 // Apply sorting
