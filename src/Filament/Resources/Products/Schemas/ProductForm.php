@@ -85,7 +85,7 @@ class ProductForm
                             ->label('')
                             ->content('دسته‌بندی‌های محصول باید در مرحله قبل انتخاب شده باشند تا بتوانید ویژگی‌های تنوع را تعیین کنید.')
                             ->columnSpan(2),
-                        ProductChildrenRepeater::create()
+                        \App\Filament\Components\Form\ProductChildrenRepeater::create()
                             ->columnSpan(2),
                     ])
                     ->columns(2),
