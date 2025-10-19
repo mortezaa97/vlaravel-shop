@@ -29,7 +29,7 @@ class SpecificationResource extends Resource
 
     protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
 
-    protected static ?string $recordTitleAttribute = 'Specification';
+    protected static ?string $recordTitleAttribute = 'attribute.name';
 
     public static function form(Schema $schema): Schema
     {

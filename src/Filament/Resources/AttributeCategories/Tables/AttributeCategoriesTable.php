@@ -20,8 +20,8 @@ class AttributeCategoriesTable
             ->columns([
                 \Filament\Tables\Columns\TextColumn::make('attribute_id')->searchable(),
                 \App\Filament\Components\Table\CategoryTextColumn::create(),
-                \Filament\Tables\Columns\IconColumn::make('can_filter')->boolean(),
-                \Filament\Tables\Columns\IconColumn::make('can_variant')->boolean(),
+                \Filament\Tables\Columns\IconColumn::make('can_filter')->translateLabel()->boolean(),
+                \Filament\Tables\Columns\IconColumn::make('can_variant')->translateLabel()->boolean(),
                 \App\Filament\Components\Table\CreatedByTextColumn::create(),
                 \App\Filament\Components\Table\UpdatedByTextColumn::create(),
                 \App\Filament\Components\Table\DeletedAtTextColumn::create(),
