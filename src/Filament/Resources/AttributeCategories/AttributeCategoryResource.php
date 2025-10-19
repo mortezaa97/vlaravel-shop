@@ -21,15 +21,15 @@ class AttributeCategoryResource extends Resource
 {
     protected static ?string $model = AttributeCategory::class;
 
-    protected static ?string $navigationLabel = 'ویژگی های دسته بندی';
+    protected static ?string $navigationLabel = 'الصاق به دسته بندی';
 
     protected static ?string $modelLabel = 'ویژگی های دسته بندی';
 
     protected static ?string $pluralModelLabel = 'ویژگی های دسته بندی';
 
-    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'ویژگی ها';
 
-    protected static ?string $recordTitleAttribute = 'ویژگی های دسته بندی';
+    protected static ?string $recordTitleAttribute = 'attribute.name';
 
     public static function form(Schema $schema): Schema
     {
@@ -38,7 +38,7 @@ class AttributeCategoryResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return AttributeCategoriesTable::configure($table);
+        return AttributeCategoriesTable::configure($table)->defaultKeySort(false);
     }
 
     public static function getRelations(): array

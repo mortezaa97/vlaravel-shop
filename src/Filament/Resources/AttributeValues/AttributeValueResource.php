@@ -21,15 +21,15 @@ class AttributeValueResource extends Resource
 {
     protected static ?string $model = AttributeValue::class;
 
-    protected static ?string $navigationLabel = 'مقادیرویژگی ها';
+    protected static ?string $navigationLabel = 'مقادیر مجاز';
 
     protected static ?string $modelLabel = 'مقادیرویژگی ها';
 
     protected static ?string $pluralModelLabel = 'مقادیرویژگی ها';
 
-    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'ویژگی ها';
 
-    protected static ?string $recordTitleAttribute = 'مقادیر مجاز ویژگی ها';
+    protected static ?string $recordTitleAttribute = 'attribute.name';
 
     public static function form(Schema $schema): Schema
     {

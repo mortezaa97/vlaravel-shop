@@ -29,7 +29,9 @@ class AttributeProductResource extends Resource
 
     protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
 
-    protected static ?string $recordTitleAttribute = 'ویژگی های محصول';
+    protected static ?string $recordTitleAttribute = 'attribute.name';
+    protected static bool $shouldRegisterNavigation = false;
+
 
     public static function form(Schema $schema): Schema
     {

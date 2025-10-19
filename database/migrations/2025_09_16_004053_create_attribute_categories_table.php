@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('attribute_categories', function (Blueprint $table) {
             $table->foreignId('attribute_id')->constrained('attributes');
             $table->foreignId('category_id')->constrained('categories');
-            $table->primary(['attribute_id', 'category_id']);
+            $table->unique(['attribute_id', 'category_id']);
             $table->boolean('can_filter')->default(false);
             $table->boolean('can_variant')->default(false);
             $table->foreignId('created_by')->constrained('users');

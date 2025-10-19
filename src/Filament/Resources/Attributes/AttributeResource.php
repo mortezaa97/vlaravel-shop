@@ -27,9 +27,9 @@ class AttributeResource extends Resource
 
     protected static ?string $pluralModelLabel = 'ویژگی ها';
 
-    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|UnitEnum $navigationGroup = 'ویژگی ها';
 
-    protected static ?string $recordTitleAttribute = 'ویژگی ها';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
     {
