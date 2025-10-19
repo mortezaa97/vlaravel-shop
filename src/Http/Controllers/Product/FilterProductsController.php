@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mortezaa97\Shop\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
 use Mortezaa97\Shop\Http\Resources\ProductSimpleResource;
@@ -15,7 +16,7 @@ class FilterProductsController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(FilterProductsRequest $request)
     {
         try {
             $variantConditions = function ($q) use ($request) {
@@ -117,7 +118,5 @@ class FilterProductsController extends Controller
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
-
-        return response()->json($products->response()->getData(true));
     }
 }
