@@ -27,7 +27,7 @@ class ProductResource extends Resource
 
     protected static ?string $pluralModelLabel = 'محصولات';
 
-    protected static string|null|UnitEnum $navigationGroup = 'فروشگاه';
+    protected static string|null|\UnitEnum $navigationGroup = 'فروشگاه';
 
     protected static ?string $recordTitleAttribute = 'name';
 

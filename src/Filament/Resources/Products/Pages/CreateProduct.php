@@ -81,6 +81,19 @@ class CreateProduct extends CreateRecord
                             ->label('شناسه محصول والد')
                             ->numeric()
                             ->columnSpan(1),
+                            
+
+                        \Filament\Forms\Components\Select::make('brand_id')
+                            ->label('برند')
+                            ->relationship(
+                                name: 'brand',
+                                titleAttribute: 'name', 
+                                modifyQueryUsing: fn ($query) => $query->orderBy('name'),
+                            )
+                            ->searchable()
+                            ->preload()
+                            ->required(fn () => class_exists(\Mortezaa97\Brands\Models\Brand::class)) 
+                            ->visible(fn () => class_exists(\Mortezaa97\Brands\Models\Brand::class)),
                         \App\Filament\Components\Form\ExcerptTextarea::create()
                             ->columnSpan(2),
                         \App\Filament\Components\Form\DescTextarea::create()

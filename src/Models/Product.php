@@ -21,12 +21,14 @@ use Illuminate\Support\Str;
 use Mortezaa97\Orders\Traits\OrderTrait;
 use Mortezaa97\Reviews\Models\Review;
 use Mortezaa97\Wishlist\Models\Wishlist;
+use Mortezaa97\Brands\Traits\HasBrand;
 
 class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use OrderTrait;
+    use HasBrand;
 
     protected $casts = [
         'gallery' => 'json',

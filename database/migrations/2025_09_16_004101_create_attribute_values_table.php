@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('attribute_id')->constrained('attributes');
             $table->string('title');
             $table->string('hex')->nullable();
-            $table->longText('desc');
+            $table->longText('desc')->nullable();
 
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');

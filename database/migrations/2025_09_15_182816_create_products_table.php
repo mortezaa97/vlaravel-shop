@@ -45,6 +45,33 @@ return new class extends Migration
             $table->smallInteger('increase_step')->default(1);
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->string('video')->nullable();
+
+            if (config('shop.features.has_weight')) {
+                $table->smallInteger('weight')->nullable();
+            }
+            if (config('shop.features.has_quality_guarantee')) {
+                $table->boolean('quality_guarantee')->default(false);
+            }
+            if (config('shop.features.has_is_original')) {
+                $table->boolean('is_original')->default(false);
+            }
+            if (config('shop.features.offline_selling')) {
+                $table->boolean('inperson_shopping')->default(false);
+            }
+            // category_id
+            // excerpt✅
+            // weight✅
+            // quality_guarantee✅
+            // is_original✅
+            // inperson_shopping✅
+            // display_name = name
+            // seller_id should be in multi-seller package
+            // list_name should be in catalog package
+            // emalls_active should be in catalog package
+            // torob_active should be in catalog package
+            // zoomit_active should be in catalog package
+
             $table->softDeletes();
             $table->timestamps();
         });

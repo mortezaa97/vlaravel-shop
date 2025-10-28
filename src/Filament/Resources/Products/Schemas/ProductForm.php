@@ -35,7 +35,17 @@ class ProductForm
                         ])
                         ->columns(12)
                         ->columnSpan(12),
-
+                    \Filament\Forms\Components\Select::make('brand_id')
+                        ->label('برند')
+                        ->relationship(
+                            name: 'brand',
+                            titleAttribute: 'name', 
+                            modifyQueryUsing: fn ($query) => $query->orderBy('name'),
+                        )
+                        ->searchable()
+                        ->preload()
+                        ->required(fn () => class_exists(\Mortezaa97\Brands\Models\Brand::class)) 
+                        ->visible(fn () => class_exists(\Mortezaa97\Brands\Models\Brand::class)),
                     \Filament\Schemas\Components\Section::make('قیمت و موجودی')
                         ->description('قیمت‌گذاری و مدیریت موجودی')
                         ->icon('heroicon-o-currency-dollar')
