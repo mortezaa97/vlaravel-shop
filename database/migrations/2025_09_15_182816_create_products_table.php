@@ -41,7 +41,6 @@ return new class extends Migration
 
             $table->smallInteger('status')->nullable();
             $table->bigInteger('views')->default(0);
-            $table->boolean('is_original')->default(false);
             $table->smallInteger('increase_step')->default(1);
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
