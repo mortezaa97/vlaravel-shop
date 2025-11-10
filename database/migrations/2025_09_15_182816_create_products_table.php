@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name'); // always should have a name, main name or main name with variant name
             $table->string('english_name')->nullable();
             $table->string('code')->unique();
             $table->string('slug')->unique();
@@ -37,7 +37,7 @@ return new class extends Migration
 
             $table->string('meta_title')->nullable();
             $table->longText('meta_desc')->nullable();
-            $table->string('meta_keywords')->nullable();
+            $table->longText('meta_keywords')->nullable();
 
             $table->smallInteger('status')->nullable();
             $table->bigInteger('views')->default(0);
