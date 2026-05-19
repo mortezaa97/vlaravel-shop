@@ -70,10 +70,13 @@ class AttributeProductFactory extends Factory
 
                 foreach ($eligibleAttributeIds as $attributeId) {
                     if (! in_array($attributeId, $existingAttributesForProduct)) {
-                        $eligiblePairs[] = [
-                            'product_id' => $productId,
-                            'attribute_id' => $attributeId,
-                        ];
+                        $hasValues = AttributeValue::where('attribute_id', $attributeId)->exists();
+                        if ($hasValues) {
+                            $eligiblePairs[] = [
+                                'product_id' => $productId,
+                                'attribute_id' => $attributeId,
+                            ];
+                        }
                     }
                 }
             }

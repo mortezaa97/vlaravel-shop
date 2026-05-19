@@ -30,14 +30,14 @@ class AttributeProduct extends Model
     {
         parent::boot();
         static::creating(function ($item) {
-            $item->attribute_name = $item->attribute->name;
-            $item->attribute_slug = $item->attribute->slug;
-            $item->attribute_value_title = $item->value->title;
+            $item->attribute_name = $item->attribute?->name;
+            $item->attribute_slug = $item->attribute?->slug;
+            $item->attribute_value_title = $item->value?->title;
         });
         static::updating(function ($item) {
-            $item->attribute_name = $item->attribute->name;
-            $item->attribute_slug = $item->attribute->slug;
-            $item->attribute_value_title = $item->value->title;
+            $item->attribute_name = $item->attribute?->name;
+            $item->attribute_slug = $item->attribute?->slug;
+            $item->attribute_value_title = $item->value?->title;
         });
     }
 
