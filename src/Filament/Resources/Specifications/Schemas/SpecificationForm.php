@@ -15,11 +15,11 @@ class SpecificationForm
                 ->schema([
                     \Filament\Schemas\Components\Section::make()
                         ->schema([
-                            \Filament\Forms\Components\TextInput::make('attribute_id')->required(),
-                            \Filament\Forms\Components\TextInput::make('product_id')->required(),
-                            \Filament\Forms\Components\TextInput::make('attribute_value_id'),
+                            \Filament\Forms\Components\TextInput::make('attribute_id')->required()->columnSpan(6),
+                            \Filament\Forms\Components\TextInput::make('product_id')->required()->columnSpan(6),
+                            \Filament\Forms\Components\TextInput::make('attribute_value_id')->columnSpan(6),
                             \App\Filament\Components\Form\DescTextarea::create(),
-                            \Filament\Forms\Components\Toggle::make('is_favorite')->required(),
+                            \Filament\Forms\Components\Toggle::make('is_favorite')->required()->columnSpan(6),
                             \App\Filament\Components\Form\OrderTextInput::create(),
                             \App\Filament\Components\Form\CreatedBySelect::create()->required(),
                             \App\Filament\Components\Form\UpdatedBySelect::create(),

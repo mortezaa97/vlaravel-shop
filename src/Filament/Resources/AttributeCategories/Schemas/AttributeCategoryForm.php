@@ -15,10 +15,10 @@ class AttributeCategoryForm
                 ->schema([
                     \Filament\Schemas\Components\Section::make()
                         ->schema([
-                            \Filament\Forms\Components\TextInput::make('attribute_id')->required(),
-                            \Filament\Forms\Components\TextInput::make('category_id')->required(),
-                            \Filament\Forms\Components\Toggle::make('can_filter')->required(),
-                            \Filament\Forms\Components\Toggle::make('can_variant')->required(),
+                            \Filament\Forms\Components\TextInput::make('attribute_id')->required()->columnSpan(6),
+                            \Filament\Forms\Components\TextInput::make('category_id')->required()->columnSpan(6),
+                            \Filament\Forms\Components\Toggle::make('can_filter')->required()->columnSpan(6),
+                            \Filament\Forms\Components\Toggle::make('can_variant')->required()->columnSpan(6),
                             \App\Filament\Components\Form\CreatedBySelect::create()->required(),
                             \App\Filament\Components\Form\UpdatedBySelect::create(),
 

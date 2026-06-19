@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mortezaa97\Shop;
 
+use Mortezaa97\Shop\Concerns\PublishesPackageAssets;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +23,8 @@ use Mortezaa97\Shop\Policies\SpecificationPolicy;
 
 class ShopServiceProvider extends ServiceProvider
 {
+    use PublishesPackageAssets;
+
     /**
      * Bootstrap the application services.
      */
@@ -48,9 +51,7 @@ class ShopServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/config.php' => config_path('shop.php'),
             ], 'config');
 
-            $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
-            ], 'migrations');
+            $this->publishPackageAssets('shop');
         }
     }
 

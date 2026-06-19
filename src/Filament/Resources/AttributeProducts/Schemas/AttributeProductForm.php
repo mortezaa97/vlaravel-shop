@@ -15,9 +15,9 @@ class AttributeProductForm
                 ->schema([
                     \Filament\Schemas\Components\Section::make()
                         ->schema([
-                            \Filament\Forms\Components\TextInput::make('attribute_id')->required(),
-                            \Filament\Forms\Components\TextInput::make('product_id')->required(),
-                            \Filament\Forms\Components\TextInput::make('attribute_value_id')->required(),
+                            \Filament\Forms\Components\TextInput::make('attribute_id')->required()->columnSpan(6),
+                            \Filament\Forms\Components\TextInput::make('product_id')->required()->columnSpan(6),
+                            \Filament\Forms\Components\TextInput::make('attribute_value_id')->required()->columnSpan(6),
                             \App\Filament\Components\Form\CreatedBySelect::create()->required(),
                             \App\Filament\Components\Form\UpdatedBySelect::create(),
 

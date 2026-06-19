@@ -15,7 +15,7 @@ class AttributeValueForm
                 ->schema([
                     \Filament\Schemas\Components\Section::make()
                         ->schema([
-                            \Filament\Forms\Components\TextInput::make('attribute_id')->required(),
+                            \Filament\Forms\Components\TextInput::make('attribute_id')->required()->columnSpan(6),
                             \App\Filament\Components\Form\TitleTextInput::create()->required(),
                             \App\Filament\Components\Form\HexColorPicker::create(),
                             \App\Filament\Components\Form\DescTextarea::create()->required(),

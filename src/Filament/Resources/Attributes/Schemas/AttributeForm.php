@@ -17,7 +17,7 @@ class AttributeForm
                         ->schema([
                             \App\Filament\Components\Form\NameTextInput::create()->required(),
                             \App\Filament\Components\Form\SlugTextInput::create()->required(),
-                            \Filament\Forms\Components\TextInput::make('parent_id')->columnSpan(12),
+                            \Filament\Forms\Components\TextInput::make('parent_id')->columnSpan(6),
 
                         ])
                         ->columns(12)
